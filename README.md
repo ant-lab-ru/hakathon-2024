@@ -16,7 +16,7 @@
 
 ### Дано
 
-- Pico-10DOF-IMU, Датчик 10-степеней свободы на основе MPU9250 и LPS22HB для Raspberry Pi Pico: https://www.chipdip.ru/product/pico-10dof-imu?from=suggest_product
+- Pico-10DOF-IMU, Датчик 10-степеней свободы на основе MPU9250 и LPS22HB для Raspberry Pi Pico: https://www.chipdip.ru/product/pico-10dof-imu
 - Raspberry Pi Pico, Программируемый контроллер на базе RP2040 (32-Бит, ARM Cortex-M0+): https://www.chipdip.ru/product/raspberry-pi-pico-2
 
 ### Задача
