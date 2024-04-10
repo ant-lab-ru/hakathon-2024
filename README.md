@@ -37,7 +37,7 @@
 
 - Python cкрипт для отработки приема-передачи данных в папке [COMReader](https://github.com/ant-lab-ru/hakathon-2024/tree/master/COMReader/COMReader_for_participant)
 
-### Эталонный измериетльный прбор
+### Эталонный измерительный прибор
 
 В качестве эталонного измерительного прибора на этапе оценки точности продуктов будет использоваться [цифровой датчик магнитного курса «ЦДМК-1»](https://integral-group.pro/products/magnetometers/cdmk-1/), разработки ООО "Интеграл"
 
