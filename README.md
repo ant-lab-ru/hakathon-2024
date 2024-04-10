@@ -30,7 +30,7 @@
 
 ### Полезные материалы
 
-- Python cкрипт для отработки приема-передачи данных в [папке](https://github.com/ant-lab-ru/hakathon-2024/tree/master/COMReader/COMReader_for_participant)
+- Python cкрипт для отработки приема-передачи данных в папке [COMReader](https://github.com/ant-lab-ru/hakathon-2024/tree/master/COMReader/COMReader_for_participant)
 
 ### Критерий оценки
 
