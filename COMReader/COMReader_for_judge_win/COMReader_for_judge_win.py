@@ -69,11 +69,13 @@ while True:
                         serialStringUSER = 0xBB
                         for i in range(9):
                             result_USER[i] = struct.unpack('<f', struct.pack('4b', *raw_list_USER[4 * i: 4 + 4 * i]))[0]
-                        if amountOfNaN == 0:
                             print(f'Data from {USER_name} group device: \n')
                             print(result_USER)
                             getUSER = 1
                             USER.write(bytes('s', 'utf-8'))
+                        time.sleep(0.5)
+                        if USER.in_waiting > 0:
+                            USER.read_all()
 
     if getUSER:
         if not os.path.isdir(f'{USER_name}'):
@@ -86,31 +88,33 @@ while True:
         getUSER = 0
         os.chdir(main_dir)
 
-    if CDMK.in_waiting > 0 and (not getCDMK):
-        while keyIsPressed:
+    if CDMK.in_waiting > 0 and keyIsPressed and (not getCDMK):
+        serialStringCDMK = CDMK.read(1)
+        if serialStringCDMK.hex(' ') == "02":
             serialStringCDMK = CDMK.read(1)
-            if serialStringCDMK.hex(' ') == "02":
+            if serialStringCDMK.hex(' ') == "00":
                 serialStringCDMK = CDMK.read(1)
-                if serialStringCDMK.hex(' ') == "00":
+                if serialStringCDMK.hex(' ') == "a6":
                     serialStringCDMK = CDMK.read(1)
-                    if serialStringCDMK.hex(' ') == "a6":
-                        serialStringCDMK = CDMK.read(1)
-                        if serialStringCDMK.hex(' ') == "bd":
-                            raw_string_CDMK = CDMK.read(144)
-                            raw_list_CDMK = [elem - 256 if elem > 127 else elem for elem in list(raw_string_CDMK)]
+                    if serialStringCDMK.hex(' ') == "bd":
+                        raw_string_CDMK = CDMK.read(144)
+                        raw_list_CDMK = [elem - 256 if elem > 127 else elem for elem in list(raw_string_CDMK)]
 
-                            amountOfNaN = 0
-                            for i in range(9):
-                                result_CDMK[i] = \
+                        amountOfNaN = 0
+                        for i in range(9):
+                            result_CDMK[i] = \
                                 struct.unpack('<f', struct.pack('4b', *raw_list_CDMK[60 + 4 * i: 64 + 4 * i]))[0]
-                                if math.isnan(result_CDMK[i]) or abs(result_CDMK[i]) > 10000 or abs(
-                                        result_CDMK[i]) < 0.000001:
-                                    amountOfNaN += 1
-                            if amountOfNaN == 0:
-                                print('\n Data from CDMK: \n')
-                                print(result_CDMK)
-                                getCDMK = 1
-                                keyIsPressed = 0
+                            if math.isnan(result_CDMK[i]) or abs(result_CDMK[i]) > 10000 or abs(
+                                    result_CDMK[i]) < 0.000001:
+                                amountOfNaN += 1
+                        if amountOfNaN == 0:
+                            print('\n Data from CDMK: \n')
+                            print(result_CDMK)
+                            getCDMK = 1
+                            keyIsPressed = 0
+                        time.sleep(0.5)
+                        if CDMK.in_waiting > 0:
+                            CDMK.read_all()
 
     if getCDMK:
         if not os.path.isdir(f'{USER_name}'):
@@ -128,7 +132,8 @@ while True:
         os.chdir(main_dir)
 
     os.chdir(f'{USER_name}')
-    with open(f'{deviation_data}.txt', 'w') as fDEV, open(f'{USER_data}.txt', 'r') as fUSER, open(f'{CDMK_data}.txt','r') as fCDMK:
+    with open(f'{deviation_data}.txt', 'w') as fDEV, open(f'{USER_data}.txt', 'r') as fUSER, open(f'{CDMK_data}.txt',
+                                                                                                  'r') as fCDMK:
         a1 = list(map(lambda x: float(x), fUSER.read().split()))
         a2 = list(map(lambda x: float(x), fCDMK.read().split()))
         result = list(map(lambda x, y: abs(abs(x) - abs(y)), a1, a2))

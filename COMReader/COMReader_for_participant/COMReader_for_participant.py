@@ -48,7 +48,7 @@ while True:
                             print(result_USER)
                             getUSER = 1
                             USER.write(bytes('s', 'utf-8'))
-                        time.sleep(1)
+                        time.sleep(0.5)
                         if USER.in_waiting > 0:
                             USER.read_all()
 
