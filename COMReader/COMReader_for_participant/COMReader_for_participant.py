@@ -3,6 +3,7 @@ import struct
 import keyboard
 import serial
 import os
+import time
 
 USER_name = 'USER'
 
@@ -47,6 +48,9 @@ while True:
                             print(result_USER)
                             getUSER = 1
                             USER.write(bytes('s', 'utf-8'))
+                        time.sleep(1)
+                        if USER.in_waiting > 0:
+                            USER.read_all()
 
     if getUSER:
         if not os.path.isdir(f'{USER_name}'):
